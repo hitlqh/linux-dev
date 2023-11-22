@@ -200,6 +200,16 @@
 			status = "disabled";
 		};
 
+		spi0: spi@30008000 {
+			compatible = "bflb,bl808-spi";
+			reg = <0x30008000 0x1000>;
+			interrupts-extended = <&plic 21 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&xtal>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
 		/*
 		ipclic: mailbox@30005000 {
 			compatible = "bflb,bl808-ipc";
@@ -233,6 +243,7 @@
 			#address-cells = <0>;
 			#interrupt-cells = <2>;
 			riscv,ndev = <82>;
+			status = "okay";
 		};
 
 		ipc {

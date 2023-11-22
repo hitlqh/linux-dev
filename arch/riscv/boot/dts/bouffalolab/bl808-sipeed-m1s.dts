@@ -84,6 +84,19 @@
 		bflb,pins = <0 16 &pin_cfg_default>,
 					<0 17 &pin_cfg_default>;
 	};
+
+	st7789v_spi_pins: st7789v-spi-pins {
+		bflb,pin-function = <BFLB_PINMUX_FUNC_MM_SPI>;
+		bflb,pins = <0 19 &pin_cfg_default>, // sck
+					<0 25 &pin_cfg_default>; // mosi
+	};
+
+	spidev_pins: spidev-pins {
+		bflb,pin-function = <BFLB_PINMUX_FUNC_MM_SPI>;
+		bflb,pins = <0 19 &pin_cfg_default>, // sck
+					<0 21 &pin_cfg_default>, // mosi
+					<0 22 &pin_cfg_default>; // miso
+	};
 };
 
 &seceng {
@@ -108,8 +121,29 @@
 	status = "okay";
 };
 
-/*
-&ipclic {
+&spi0 {
 	status = "okay";
+	num-cs = <2>;
+	cs-gpios = <&pinctrl 12 GPIO_ACTIVE_LOW>,
+			   <&pinctrl 20 GPIO_ACTIVE_LOW>;
+
+	spi-st7789v@0 {
+		compatible = "sitronix,st7789v";
+		reg = <0>;
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&st7789v_spi_pins>;
+
+		reset-gpios = <&pinctrl 24 GPIO_ACTIVE_LOW>;
+		dc-gpios = <&pinctrl 13 GPIO_ACTIVE_HIGH>;
+		spi-max-frequency = <15000000>;
+	};
+
+	spidev@1 {
+		compatible = "lwn,bk4";
+		reg = <1>;
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&spidev_pins>;
+	};
 };
-*/
